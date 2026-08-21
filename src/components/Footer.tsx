@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { CITIES, SITE } from "@/lib/site";
 
 export function Footer() {
   return (
@@ -13,35 +14,45 @@ export function Footer() {
             <span className="font-display text-lg font-semibold text-fg">LevelUp LVP</span>
           </div>
           <p className="max-w-xs text-sm leading-relaxed text-fg-muted">
-            Premium luxury vinyl plank installation for homes, builders, and property managers across Greenville and the Upstate.
+            Luxury vinyl plank installation for homes, builders, and property managers across Greenville and the Upstate.
+          </p>
+          <p className="mt-3 text-xs text-fg-subtle">
+            {SITE.hours} · {SITE.afterHours}
           </p>
         </div>
 
         <div>
-          <h4 className="mb-4 font-sans text-sm font-semibold tracking-wide text-fg">Pages</h4>
+          <h4 className="mb-4 font-sans text-sm font-semibold tracking-wide text-fg">Work</h4>
           <div className="space-y-2 text-sm text-fg-muted">
             <Link to="/services" className="block hover:text-oak">
               Services
             </Link>
-            <Link to="/about" className="block hover:text-oak">
-              About
+            <Link to="/estimate" className="block hover:text-oak">
+              Price range
             </Link>
-            <Link to="/contact" className="block hover:text-oak">
-              Contact
+            <Link to="/book" className="block hover:text-oak">
+              Book a measure
             </Link>
-            <Link to="/admin" className="block hover:text-oak">
-              Ops desk
+            <Link to="/builders" className="block hover:text-oak">
+              Builder packet
+            </Link>
+            <Link to="/voice" className="block hover:text-oak">
+              After-hours qualify
+            </Link>
+            <Link to="/reviews" className="block hover:text-oak">
+              Reviews
             </Link>
           </div>
         </div>
 
         <div>
-          <h4 className="mb-4 font-sans text-sm font-semibold tracking-wide text-fg">Services</h4>
+          <h4 className="mb-4 font-sans text-sm font-semibold tracking-wide text-fg">Areas</h4>
           <div className="space-y-2 text-sm text-fg-muted">
-            <p>LVP installation</p>
-            <p>Subfloor prep</p>
-            <p>Commercial projects</p>
-            <p>Builder partnerships</p>
+            {CITIES.map((city) => (
+              <Link key={city.slug} to="/areas/$city" params={{ city: city.slug }} className="block hover:text-oak">
+                {city.name}
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -50,15 +61,15 @@ export function Footer() {
           <div className="space-y-3 text-sm text-fg-muted">
             <p className="flex items-start gap-3">
               <MapPin className="mt-0.5 size-4 shrink-0 text-oak" />
-              Greenville, SC and 50-mile radius
+              {SITE.addressLine} · {SITE.radius}
             </p>
-            <a href="tel:8645550123" className="flex items-center gap-3 hover:text-oak">
+            <a href={SITE.phoneTel} className="flex items-center gap-3 hover:text-oak">
               <Phone className="size-4 shrink-0 text-oak" />
-              (864) 555-0123
+              {SITE.phoneDisplay}
             </a>
-            <a href="mailto:info@leveluplvp.com" className="flex items-center gap-3 hover:text-oak">
+            <a href={`mailto:${SITE.email}`} className="flex items-center gap-3 hover:text-oak">
               <Mail className="size-4 shrink-0 text-oak" />
-              info@leveluplvp.com
+              {SITE.email}
             </a>
           </div>
         </div>

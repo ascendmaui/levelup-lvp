@@ -1,14 +1,36 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
+import { SignedIn, SignedOut, UserButton } from "@/lib/auth/gates";
+import { useCurrentUserState } from "@/lib/auth/use-current-user";
+import { SITE } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
 const LINKS = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
+  { to: "/estimate", label: "Estimate" },
+  { to: "/areas", label: "Areas" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;
+
+function AuthSlot() {
+  const { user, isPending } = useCurrentUserState();
+  if (isPending) return <div className="size-8 animate-pulse rounded-full bg-white/10" />;
+  return user ? (
+    <div className="flex items-center gap-3">
+      <Link to="/admin" className="hidden text-sm text-oak lg:inline">
+        Ops
+      </Link>
+      <UserButton />
+    </div>
+  ) : (
+    <Link to="/login" className="hidden text-sm text-fg-subtle hover:text-oak lg:inline">
+      Ops login
+    </Link>
+  );
+}
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -26,12 +48,12 @@ export function Navbar() {
               LevelUp LVP
             </span>
             <span className="mt-1 block text-[11px] tracking-[0.14em] text-oak uppercase">
-              Premium flooring
+              Greenville · {SITE.phoneDisplay}
             </span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-7 text-sm font-medium text-fg-muted md:flex">
+        <nav className="hidden items-center gap-6 text-sm font-medium text-fg-muted lg:flex">
           {LINKS.map((link) => (
             <Link
               key={link.to}
@@ -46,12 +68,22 @@ export function Navbar() {
           ))}
         </nav>
 
-        <Link
-          to="/contact"
-          className="hidden min-h-11 items-center rounded-full bg-oak px-5 text-sm font-semibold text-charcoal transition-colors duration-150 hover:bg-fg md:inline-flex"
-        >
-          Get a quote
-        </Link>
+        <div className="hidden items-center gap-3 md:flex">
+          <a
+            href={SITE.phoneTel}
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line px-4 text-sm font-medium text-fg hover:border-oak"
+          >
+            <Phone className="size-4 text-oak" />
+            Call
+          </a>
+          <Link
+            to="/book"
+            className="inline-flex min-h-11 items-center rounded-full bg-oak px-5 text-sm font-semibold text-charcoal transition-colors duration-150 hover:bg-fg"
+          >
+            Book a measure
+          </Link>
+          <AuthSlot />
+        </div>
 
         <button
           type="button"
@@ -81,12 +113,22 @@ export function Navbar() {
               </Link>
             ))}
             <Link
-              to="/contact"
+              to="/book"
               onClick={() => setOpen(false)}
               className="mt-2 flex min-h-11 items-center justify-center rounded-full bg-oak px-5 font-semibold text-charcoal"
             >
-              Get a quote
+              Book a measure
             </Link>
+            <SignedOut>
+              <Link to="/login" onClick={() => setOpen(false)} className="flex min-h-11 items-center px-3 text-sm text-fg-subtle">
+                Ops login
+              </Link>
+            </SignedOut>
+            <SignedIn>
+              <Link to="/admin" onClick={() => setOpen(false)} className="flex min-h-11 items-center px-3 text-sm text-oak">
+                Ops desk
+              </Link>
+            </SignedIn>
           </nav>
         </div>
       ) : null}

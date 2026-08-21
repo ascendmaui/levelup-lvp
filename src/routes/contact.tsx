@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { FramedImage } from "@/components/FramedImage";
 import { LeadForm } from "@/components/LeadForm";
 import { SiteShell } from "@/components/SiteShell";
+import { SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({ component: ContactPage });
 
@@ -13,27 +13,23 @@ function ContactPage() {
         <div>
           <p className="mb-3 text-xs font-medium tracking-[0.18em] text-oak uppercase">Contact</p>
           <h1 className="font-display text-display leading-[1.05] font-semibold tracking-tight">
-            Let's get the floor right.
+            Call, text, or hold a measure.
           </h1>
           <p className="mt-5 max-w-md text-lg text-fg-muted">
-            Share the rooms and a rough square footage. We reply within one business day with a site-visit window.
+            {SITE.hours}. After hours the night desk still qualifies and holds a window.
           </p>
 
           <dl className="mt-8 space-y-4 text-sm">
             <div className="flex items-start gap-3 text-fg-muted">
-              <MapPin className="mt-0.5 size-4 text-oak" />
-              <div>
-                <dt className="font-medium text-fg">Service area</dt>
-                <dd>Greenville, SC and 50 miles</dd>
-              </div>
-            </div>
-            <div className="flex items-start gap-3 text-fg-muted">
               <Phone className="mt-0.5 size-4 text-oak" />
               <div>
-                <dt className="font-medium text-fg">Phone</dt>
-                <dd>
-                  <a href="tel:8645550123" className="hover:text-oak">
-                    (864) 555-0123
+                <dt className="font-medium text-fg">Call / text</dt>
+                <dd className="flex flex-wrap gap-3">
+                  <a href={SITE.phoneTel} className="hover:text-oak">
+                    {SITE.phoneDisplay}
+                  </a>
+                  <a href={SITE.phoneSms} className="hover:text-oak">
+                    SMS
                   </a>
                 </dd>
               </div>
@@ -43,24 +39,34 @@ function ContactPage() {
               <div>
                 <dt className="font-medium text-fg">Email</dt>
                 <dd>
-                  <a href="mailto:info@leveluplvp.com" className="hover:text-oak">
-                    info@leveluplvp.com
+                  <a href={`mailto:${SITE.email}`} className="hover:text-oak">
+                    {SITE.email}
                   </a>
                 </dd>
               </div>
             </div>
+            <div className="flex items-start gap-3 text-fg-muted">
+              <MapPin className="mt-0.5 size-4 text-oak" />
+              <div>
+                <dt className="font-medium text-fg">Area</dt>
+                <dd>
+                  {SITE.addressLine} · {SITE.radius}
+                </dd>
+              </div>
+            </div>
           </dl>
-
-          <FramedImage
-            src="/images/hallway.jpg"
-            alt="Finished oak LVP hallway"
-            position="center 72%"
-            className="mt-10 hidden aspect-[16/10] rounded-xl lg:block"
-          />
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/book" className="inline-flex min-h-11 items-center rounded-full bg-oak px-5 text-sm font-semibold text-charcoal">
+              Book a measure
+            </Link>
+            <Link to="/voice" className="inline-flex min-h-11 items-center rounded-full border border-line px-5 text-sm">
+              After-hours desk
+            </Link>
+          </div>
         </div>
 
         <div className="rounded-xl border border-line-strong bg-charcoal-elevated p-5 sm:p-8">
-          <LeadForm />
+          <LeadForm source="contact" />
         </div>
       </section>
     </SiteShell>

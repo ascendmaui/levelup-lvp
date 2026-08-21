@@ -96,7 +96,7 @@ function ServicesPage() {
       <section className="mx-auto max-w-xl px-4 py-16 sm:px-6">
         <h2 className="mb-6 font-display text-title font-semibold">Ask about a room</h2>
         <div className="rounded-xl border border-line-strong p-5 sm:p-8">
-          <LeadForm />
+          <LeadForm source="services" />
         </div>
       </section>
     </SiteShell>

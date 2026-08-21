@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { FramedImage } from "@/components/FramedImage";
 import { SiteShell } from "@/components/SiteShell";
 
@@ -15,13 +15,13 @@ function AboutPage() {
           </h1>
           <div className="mt-8 space-y-5 text-base leading-relaxed text-fg-muted sm:text-lg">
             <p>
-              LevelUp LVP was founded in Greenville to give Upstate builders and homeowners a crew that treats luxury vinyl like finish carpentry — not a weekend side job.
+              LevelUp LVP was founded in Greenville so Upstate builders and homeowners could hire a crew that treats luxury vinyl like finish carpentry — not a weekend side job.
             </p>
             <p>
-              Fifteen years of combined flooring work, thousands of square feet, and one standard: the plank line stays true from the first doorway to the last closet.
+              We meter the slab, write the square footage, and walk the punch list before we leave. The plank line stays true from the first doorway to the last closet.
             </p>
             <p>
-              We serve Greenville, Greer, Taylors, Simpsonville, and a 50-mile radius. If the job is in the Upstate, we will be there with moisture meters, not guesses.
+              Service area: Greenville, Greer, Taylors, Simpsonville, Mauldin, Travelers Rest, and Spartanburg — 50 miles from downtown.
             </p>
           </div>
         </div>
@@ -49,20 +49,13 @@ function AboutPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-        <div className="grid grid-cols-2 gap-3">
-          <FramedImage
-            src="/images/hallway.jpg"
-            alt="Installed hallway of oak LVP"
-            position="center 70%"
-            className="aspect-[3/4] rounded-lg sm:aspect-[16/11]"
-          />
-          <FramedImage
-            src="/images/kitchen.jpg"
-            alt="Kitchen floor after LevelUp install"
-            position="center 75%"
-            className="aspect-[3/4] rounded-lg sm:aspect-[16/11]"
-          />
-        </div>
+        <h2 className="mb-4 font-display text-title font-semibold">Paper we send before we mobilize</h2>
+        <p className="max-w-2xl text-sm text-fg-muted">
+          General liability, workers’ comp, and manufacturer warranties. Certificates of insurance are issued per job with the GC named — they are not a stock JPEG on this site. Ask and we send the current cert the same day.
+        </p>
+        <Link to="/builders" className="mt-6 inline-flex min-h-11 items-center text-sm font-medium text-oak">
+          Builder packet →
+        </Link>
       </section>
     </SiteShell>
   );

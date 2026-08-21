@@ -12,8 +12,19 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as BookRouteImport } from './routes/book'
+import { Route as BuildersRouteImport } from './routes/builders'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EstimateRouteImport } from './routes/estimate'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as VoiceRouteImport } from './routes/voice'
+import { Route as AreasIndexRouteImport } from './routes/areas/index'
+import { Route as AreasCityRouteImport } from './routes/areas/$city'
+import { Route as GoBuildersRouteImport } from './routes/go/builders'
+import { Route as GoHomeownersRouteImport } from './routes/go/homeowners'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,9 +41,34 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuildersRoute = BuildersRouteImport.update({
+  id: '/builders',
+  path: '/builders',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EstimateRoute = EstimateRouteImport.update({
+  id: '/estimate',
+  path: '/estimate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewsRoute = ReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -40,43 +76,166 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VoiceRoute = VoiceRouteImport.update({
+  id: '/voice',
+  path: '/voice',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AreasIndexRoute = AreasIndexRouteImport.update({
+  id: '/areas/',
+  path: '/areas/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AreasCityRoute = AreasCityRouteImport.update({
+  id: '/areas/$city',
+  path: '/areas/$city',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoBuildersRoute = GoBuildersRouteImport.update({
+  id: '/go/builders',
+  path: '/go/builders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoHomeownersRoute = GoHomeownersRouteImport.update({
+  id: '/go/homeowners',
+  path: '/go/homeowners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
+  '/book': typeof BookRoute
+  '/builders': typeof BuildersRoute
   '/contact': typeof ContactRoute
+  '/estimate': typeof EstimateRoute
+  '/login': typeof LoginRoute
+  '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRoute
+  '/voice': typeof VoiceRoute
+  '/areas/$city': typeof AreasCityRoute
+  '/go/builders': typeof GoBuildersRoute
+  '/go/homeowners': typeof GoHomeownersRoute
+  '/areas/': typeof AreasIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
+  '/book': typeof BookRoute
+  '/builders': typeof BuildersRoute
   '/contact': typeof ContactRoute
+  '/estimate': typeof EstimateRoute
+  '/login': typeof LoginRoute
+  '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRoute
+  '/voice': typeof VoiceRoute
+  '/areas/$city': typeof AreasCityRoute
+  '/go/builders': typeof GoBuildersRoute
+  '/go/homeowners': typeof GoHomeownersRoute
+  '/areas': typeof AreasIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
+  '/book': typeof BookRoute
+  '/builders': typeof BuildersRoute
   '/contact': typeof ContactRoute
+  '/estimate': typeof EstimateRoute
+  '/login': typeof LoginRoute
+  '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRoute
+  '/voice': typeof VoiceRoute
+  '/areas/$city': typeof AreasCityRoute
+  '/go/builders': typeof GoBuildersRoute
+  '/go/homeowners': typeof GoHomeownersRoute
+  '/areas/': typeof AreasIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/admin' | '/contact' | '/services'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/book'
+    | '/builders'
+    | '/contact'
+    | '/estimate'
+    | '/login'
+    | '/reviews'
+    | '/services'
+    | '/voice'
+    | '/areas/$city'
+    | '/go/builders'
+    | '/go/homeowners'
+    | '/areas/'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/admin' | '/contact' | '/services'
-  id: '__root__' | '/' | '/about' | '/admin' | '/contact' | '/services'
+  to:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/book'
+    | '/builders'
+    | '/contact'
+    | '/estimate'
+    | '/login'
+    | '/reviews'
+    | '/services'
+    | '/voice'
+    | '/areas/$city'
+    | '/go/builders'
+    | '/go/homeowners'
+    | '/areas'
+    | '/api/auth/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/book'
+    | '/builders'
+    | '/contact'
+    | '/estimate'
+    | '/login'
+    | '/reviews'
+    | '/services'
+    | '/voice'
+    | '/areas/$city'
+    | '/go/builders'
+    | '/go/homeowners'
+    | '/areas/'
+    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRoute
+  BookRoute: typeof BookRoute
+  BuildersRoute: typeof BuildersRoute
   ContactRoute: typeof ContactRoute
+  EstimateRoute: typeof EstimateRoute
+  LoginRoute: typeof LoginRoute
+  ReviewsRoute: typeof ReviewsRoute
   ServicesRoute: typeof ServicesRoute
+  VoiceRoute: typeof VoiceRoute
+  AreasCityRoute: typeof AreasCityRoute
+  GoBuildersRoute: typeof GoBuildersRoute
+  GoHomeownersRoute: typeof GoHomeownersRoute
+  AreasIndexRoute: typeof AreasIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -102,11 +261,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/builders': {
+      id: '/builders'
+      path: '/builders'
+      fullPath: '/builders'
+      preLoaderRoute: typeof BuildersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/estimate': {
+      id: '/estimate'
+      path: '/estimate'
+      fullPath: '/estimate'
+      preLoaderRoute: typeof EstimateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reviews': {
+      id: '/reviews'
+      path: '/reviews'
+      fullPath: '/reviews'
+      preLoaderRoute: typeof ReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -116,6 +310,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/voice': {
+      id: '/voice'
+      path: '/voice'
+      fullPath: '/voice'
+      preLoaderRoute: typeof VoiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/areas/': {
+      id: '/areas/'
+      path: '/areas'
+      fullPath: '/areas/'
+      preLoaderRoute: typeof AreasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/areas/$city': {
+      id: '/areas/$city'
+      path: '/areas/$city'
+      fullPath: '/areas/$city'
+      preLoaderRoute: typeof AreasCityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/go/builders': {
+      id: '/go/builders'
+      path: '/go/builders'
+      fullPath: '/go/builders'
+      preLoaderRoute: typeof GoBuildersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/go/homeowners': {
+      id: '/go/homeowners'
+      path: '/go/homeowners'
+      fullPath: '/go/homeowners'
+      preLoaderRoute: typeof GoHomeownersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -123,8 +359,19 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRoute,
+  BookRoute: BookRoute,
+  BuildersRoute: BuildersRoute,
   ContactRoute: ContactRoute,
+  EstimateRoute: EstimateRoute,
+  LoginRoute: LoginRoute,
+  ReviewsRoute: ReviewsRoute,
   ServicesRoute: ServicesRoute,
+  VoiceRoute: VoiceRoute,
+  AreasCityRoute: AreasCityRoute,
+  GoBuildersRoute: GoBuildersRoute,
+  GoHomeownersRoute: GoHomeownersRoute,
+  AreasIndexRoute: AreasIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
