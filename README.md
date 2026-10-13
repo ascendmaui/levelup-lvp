@@ -20,3 +20,6 @@ npm run build
 ```
 
 Leads from the quote form are stored in the browser for the ops desk at `/admin`. Wire Resend or a database when you are ready for real inbox delivery.
+
+## Voice agents
+See [docs/VOICE_AGENTS.md](docs/VOICE_AGENTS.md).

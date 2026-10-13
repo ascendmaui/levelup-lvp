@@ -7,7 +7,10 @@ import { LEAD_STATUSES } from "@/lib/site";
 import { SiteShell } from "@/components/SiteShell";
 import { cn } from "@/lib/cn";
 
-export const Route = createFileRoute("/admin")({ component: AdminPage });
+export const Route = createFileRoute("/admin")({
+  component: AdminPage,
+  head: () => ({ meta: [{ name: "robots", content: "noindex, nofollow" }] }),
+});
 
 function AdminPage() {
   const { user, isPending } = useCurrentUserState();
