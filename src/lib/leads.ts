@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { authMiddleware } from "@/lib/auth/middleware";
+import { adminMiddleware } from "@/lib/auth/middleware";
 
 export type Lead = {
   id: string;
@@ -143,7 +143,7 @@ export const submitLead = createServerFn({ method: "POST" })
   });
 
 export const listLeads = createServerFn({ method: "GET" })
-  .middleware([authMiddleware])
+  .middleware([adminMiddleware])
   .handler(async () => {
     const { getSql } = await import("@/lib/db");
     const sql = await getSql();
@@ -158,7 +158,7 @@ export const listLeads = createServerFn({ method: "GET" })
   });
 
 export const listLeadEvents = createServerFn({ method: "GET" })
-  .middleware([authMiddleware])
+  .middleware([adminMiddleware])
   .validator((leadId: string) => leadId)
   .handler(async ({ data: leadId }) => {
     const { getSql } = await import("@/lib/db");
@@ -172,7 +172,7 @@ export const listLeadEvents = createServerFn({ method: "GET" })
   });
 
 export const updateLeadStatus = createServerFn({ method: "POST" })
-  .middleware([authMiddleware])
+  .middleware([adminMiddleware])
   .validator((input: { id: string; status: string; notes?: string }) => input)
   .handler(async ({ data }) => {
     const { getSql } = await import("@/lib/db");
@@ -190,3 +190,8 @@ export const updateLeadStatus = createServerFn({ method: "POST" })
     `;
     return { ok: true as const };
   });
+
+/** Route guard for /admin: resolves only for allowlisted admins (401/403 otherwise). */
+export const checkAdminAccess = createServerFn({ method: "GET" })
+  .middleware([adminMiddleware])
+  .handler(async () => ({ isAdmin: true as const }));

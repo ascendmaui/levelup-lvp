@@ -44,3 +44,20 @@ export const authMiddleware = createMiddleware({ type: "function" })
     const userId = await requireUserId(context.bearerToken);
     return next({ context: { userId } });
   });
+
+/**
+ * Admin-only middleware: like `authMiddleware`, but additionally requires the
+ * caller's email to be in ADMIN_EMAILS (fails closed when unset/empty).
+ */
+export const adminMiddleware = createMiddleware({ type: "function" })
+  .client(async ({ next }) => {
+    const { getBearerToken } = await import("./client");
+    return next({ sendContext: { bearerToken: getBearerToken() ?? undefined } });
+  })
+  .server(async ({ next, context }) => {
+    const { assertSameSiteRequest } = await import("./isolation.server");
+    const { requireAdminUserId } = await import("./verify.server");
+    assertSameSiteRequest();
+    const userId = await requireAdminUserId(context.bearerToken);
+    return next({ context: { userId } });
+  });

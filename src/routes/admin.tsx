@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { RedirectToSignIn } from "@/lib/auth/gates";
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
-import { listLeads, updateLeadStatus, type Lead } from "@/lib/leads";
+import { checkAdminAccess, listLeads, updateLeadStatus, type Lead } from "@/lib/leads";
 import { LEAD_STATUSES } from "@/lib/site";
 import { SiteShell } from "@/components/SiteShell";
 import { cn } from "@/lib/cn";
@@ -13,12 +13,31 @@ function AdminPage() {
   const { user, isPending } = useCurrentUserState();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [access, setAccess] = useState<"checking" | "allowed" | "denied">("checking");
 
   useEffect(() => {
     if (!user) return;
-    listLeads()
-      .then(setLeads)
-      .catch((e: unknown) => setError(e instanceof Error ? e.message : "Could not load leads"));
+    let cancelled = false;
+    checkAdminAccess()
+      .then(() => {
+        if (cancelled) return;
+        setAccess("allowed");
+        return listLeads().then((rows) => {
+          if (!cancelled) setLeads(rows);
+        });
+      })
+      .catch((e: unknown) => {
+        if (cancelled) return;
+        if (e instanceof Error && (e.message === "Forbidden" || e.message === "Unauthorized")) {
+          setAccess("denied");
+        } else {
+          setAccess("denied");
+          setError(e instanceof Error ? e.message : "Could not load leads");
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [user]);
 
   const counts = useMemo(() => {
@@ -39,6 +58,19 @@ function AdminPage() {
     );
   }
   if (!user) return <RedirectToSignIn to="/login" />;
+  if (access !== "allowed") {
+    return (
+      <SiteShell>
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          {access === "checking" ? (
+            <div className="h-8 w-48 animate-pulse rounded bg-white/10" />
+          ) : (
+            <p className="text-fg-muted">Not authorized.</p>
+          )}
+        </div>
+      </SiteShell>
+    );
+  }
 
   async function setStatus(id: string, status: string) {
     await updateLeadStatus({ data: { id, status } });

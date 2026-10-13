@@ -94,3 +94,46 @@ export async function requireUserId(bearerToken?: string): Promise<string> {
   if (!user) throw new UnauthorizedError();
   return user.id;
 }
+
+/**
+ * Thrown when a signed-in user is not on the ADMIN_EMAILS allowlist.
+ * Carries `status: 403`.
+ */
+export class ForbiddenError extends Error {
+  readonly status = 403;
+  constructor() {
+    super("Forbidden");
+    this.name = "ForbiddenError";
+  }
+}
+
+/** Parsed ADMIN_EMAILS (comma-separated, trimmed, lower-cased). Empty = nobody. */
+export function adminEmails(): Set<string> {
+  return new Set(
+    (process.env.ADMIN_EMAILS ?? "")
+      .split(",")
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean),
+  );
+}
+
+/** True only when `email` is on the allowlist. Fails closed when unset/empty. */
+export function isAdminEmail(email: string | null | undefined): boolean {
+  if (!email) return false;
+  const allow = adminEmails();
+  if (allow.size === 0) return false;
+  return allow.has(email.trim().toLowerCase());
+}
+
+/**
+ * Resolve the current user and require them to be an admin.
+ * Signed out -> UnauthorizedError (401). Signed in but not allowlisted, or
+ * ADMIN_EMAILS unset/empty, or auth disabled -> ForbiddenError (403).
+ */
+export async function requireAdminUserId(bearerToken?: string): Promise<string> {
+  if (!authConfigured) throw new ForbiddenError();
+  const user = await getSessionUser(bearerToken);
+  if (!user) throw new UnauthorizedError();
+  if (!isAdminEmail(user.email)) throw new ForbiddenError();
+  return user.id;
+}
